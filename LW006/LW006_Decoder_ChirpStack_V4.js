@@ -44,7 +44,7 @@ function decodeUplink(input) {
     if (fPort == 1 || fPort == 2 || fPort == 3 || fPort == 4
         || fPort == 5 || fPort == 8 || fPort == 9) {
         data.charging_status = bytes[0] & 0x80 ? "charging" : "no charging";
-        data.batt_level = (bytes[0] & 0x7F) + "%";
+        data.battery_level = (bytes[0] & 0x7F) + "%";
     }
     if (fPort == 1) {
         // Device info
@@ -104,8 +104,8 @@ function decodeUplink(input) {
         // L76_GPS data
         data.pos_type = posType[bytesToInt(bytes, 0, 2) >> 12];
         data.age = bytesToInt(bytes, 0, 2) + "s";
-        var latitude = Number(signedHexToInt(bytesToHexString(bytes, 2, 4)) * 0.0000001).toFixed(7) + '°';
-        var longitude = Number(signedHexToInt(bytesToHexString(bytes, 6, 4)) * 0.0000001).toFixed(7) + '°';
+        var latitude = Number(signedHexToInt(bytesToHexString(bytes, 2, 4)) * 0.0000001).toFixed(6);
+        var longitude = Number(signedHexToInt(bytesToHexString(bytes, 6, 4)) * 0.0000001).toFixed(6);
         var pdop = (bytes[10] & 0xFF) * 0.1;
         data.latitude = latitude;
         data.longitude = longitude;
@@ -165,9 +165,9 @@ function decodeUplink(input) {
             var index = 6;
             // for (var i = 0; i < count; i++) {
             // var item = {};
-            var latitude = Number(signedHexToInt(bytesToHexString(bytes, index, 4)) * 0.0000001).toFixed(7) + '°';
+            var latitude = Number(signedHexToInt(bytesToHexString(bytes, index, 4)) * 0.0000001).toFixed(6);
             index += 4;
-            var longitude = Number(signedHexToInt(bytesToHexString(bytes, index, 4)) * 0.0000001).toFixed(7) + '°';
+            var longitude = Number(signedHexToInt(bytesToHexString(bytes, index, 4)) * 0.0000001).toFixed(6);
             index += 4;
             var pdop = Number(bytes[index++] & 0xFF * 0.1).toFixed(1);
             // item.latitude = latitude;
